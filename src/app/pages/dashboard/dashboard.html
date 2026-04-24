@@ -1,0 +1,156 @@
+<div class="bg-layer">
+  <div class="sun"></div>
+  <div class="sun-ring"></div>
+  <div class="sun-ring"></div>
+  <div class="sun-ring"></div>
+  <div class="grid-lines"></div>
+  <div class="ground-glow"></div>
+</div>
+
+<div class="wrapper">
+
+  <header>
+    <div class="logo-wrap">
+      <img src="assets/logo.png" alt="iPanelKlean" class="header-logo">
+      <div class="brand">
+        <p>MIS Dashboard</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="date-chip">{{ today }}</div>
+      <div class="status-pill">
+        <div class="pulse-dot"></div>
+        System Active
+      </div>
+      <span class="role-badge">{{ userRole | uppercase }}</span>
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+  </header>
+  <div class="hero">
+    <div class="hero-text">
+      <h2>Waterless Solar<br/>Self-Cleaning System</h2>
+      <p>Patented technology that makes solar panels slippery by special coatings, then blows them clean using compressed air multiple times a day — increasing power generation anywhere from 30% to 100%, completely automatic and brushless.</p>
+      <div class="hero-tags">
+        <span class="tag tag-green">✦ Automatic</span>
+        <span class="tag tag-green">✦ Waterless</span>
+        <span class="tag tag-green">✦ Brushless</span>
+        <span class="tag tag-gold">☀ No Moving Parts</span>
+      </div>
+    </div>
+  </div>
+@if (userRole === 'MD' || userRole === 'md') {
+  <div class="task-summaries-wrapper">
+    <div class="summary-panel">
+      <div class="panel-header" style="--hc: #60a5fa">CHECKLIST TASK SUMMARY</div>
+      <div class="panel-grid cols-2">
+        <div class="stat-box" style="--c:#4ade80">
+          <div class="stat-label">Today Completed</div>
+          <div class="stat-value">{{ checklistCompleted }}</div>
+        </div>
+        <div class="stat-box" style="--c:#f87171">
+          <div class="stat-label">Today Pending</div>
+          <div class="stat-value">{{ checklistPending }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="summary-panel">
+      <div class="panel-header" style="--hc: #60a5fa">DELEGATION TASK SUMMARY</div>
+      <div class="panel-grid cols-3">
+        <div class="stat-box" style="--c:#60a5fa">
+          <div class="stat-label">Today Assigned</div>
+          <div class="stat-value">{{ delegationAssigned }}</div>
+        </div>
+        <div class="stat-box" style="--c:#4ade80">
+          <div class="stat-label">Today Completed</div>
+          <div class="stat-value">{{ delegationCompleted }}</div>
+        </div>
+        <div class="stat-box" style="--c:#a78bfa">
+          <div class="stat-label">Completion %</div>
+          <div class="stat-value">{{ delegationCompletionPct }}%</div>
+        </div>
+        <div class="stat-box" style="--c:#f59e0b">
+          <div class="stat-label">Total Pending</div>
+          <div class="stat-value">{{ delegationPending }}</div>
+        </div>
+        <div class="stat-box" style="--c:#f87171">
+          <div class="stat-label">Total Overdue</div>
+          <div class="stat-value">{{ delegationOverdue }}</div>
+        </div>
+        
+        <div class="stat-box custom-box" style="--c:#94a3b8">
+          <div class="stat-icon">✨</div>
+          <div class="stat-label">Custom Space</div>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+  @if (row1.length > 0) {
+    <div class="section-head">
+      <h3>Management Modules</h3>
+      <div class="section-line"></div>
+      <span class="section-count">{{ row1.length }} modules</span>
+    </div>
+    <div class="modules-grid">
+      @for (m of row1; track m.name) {
+        <a class="mod-card" [href]="m.link" target="_blank"
+           [style]="'--mc:' + m.color + '; --mg:' + m.glow">
+          <span class="mod-arrow">↗</span>
+          <div class="mod-icon-wrap">
+            <span style="font-size:26px">{{ m.icon }}</span>
+          </div>
+          <div class="mod-name">{{ m.name }}</div>
+          <div class="mod-cat">{{ m.cat }}</div>
+        </a>
+      }
+    </div>
+  }
+
+  @if (row2.length > 0) {
+    <div class="section-head">
+      <h3>Field & Operations</h3>
+      <div class="section-line"></div>
+      <span class="section-count">{{ row2.length }} modules</span>
+    </div>
+    <div class="modules-grid">
+      @for (m of row2; track m.name) {
+        <a class="mod-card" [href]="m.link" target="_blank"
+           [style]="'--mc:' + m.color + '; --mg:' + m.glow">
+          <span class="mod-arrow">↗</span>
+          <div class="mod-icon-wrap">
+            <span style="font-size:26px">{{ m.icon }}</span>
+          </div>
+          <div class="mod-name">{{ m.name }}</div>
+          <div class="mod-cat">{{ m.cat }}</div>
+        </a>
+      }
+    </div>
+  }
+
+  @if (row3.length > 0) {
+    <div class="section-head">
+      <h3>Finance & Analytics</h3>
+      <div class="section-line"></div>
+      <span class="section-count">{{ row3.length }} modules</span>
+    </div>
+    <div class="modules-grid">
+      @for (m of row3; track m.name) {
+        <a class="mod-card" [href]="m.link" target="_blank"
+           [style]="'--mc:' + m.color + '; --mg:' + m.glow">
+          <span class="mod-arrow">↗</span>
+          <div class="mod-icon-wrap">
+            <span style="font-size:26px">{{ m.icon }}</span>
+          </div>
+          <div class="mod-name">{{ m.name }}</div>
+          <div class="mod-cat">{{ m.cat }}</div>
+        </a>
+      }
+    </div>
+  }
+
+  <footer>
+    Copyright &copy; <span>iPanelKlean</span> 2022. All Rights Reserved. &nbsp;·&nbsp; Powered by nA2 Technology
+  </footer>
+
+</div>

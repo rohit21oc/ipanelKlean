@@ -1,1 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #0a2e1a; /* Dashboard se match karta hua background */
+  overflow-x: hidden; /* Ye horizontal slider (niche wala scroll) ko remove kar dega */
+}

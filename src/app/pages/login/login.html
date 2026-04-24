@@ -1,0 +1,44 @@
+<div class="login-container">
+  <div class="login-card">
+
+    <div class="logo">
+  <img src="assets/logo.png" alt="iPanelKlean Logo" class="login-logo">
+  <p>MIS Dashboard</p>
+</div>
+
+    <div class="tabs">
+      <button [class.active]="!isSignup" (click)="isSignup = false">Login</button>
+      <button [class.active]="isSignup" (click)="isSignup = true">Signup</button>
+    </div>
+
+    <div class="form">
+      <input 
+        type="email" 
+        placeholder="Email address" 
+        [(ngModel)]="email" />
+      
+      <input 
+        type="password" 
+        placeholder="Password" 
+        [(ngModel)]="password" />
+
+      <button class="submit-btn" (click)="submitEmailAuth()" [disabled]="loading">
+        {{ loading ? 'Please wait...' : (isSignup ? 'Create Account' : 'Login') }}
+      </button>
+    </div>
+
+    @if (errorMsg) {
+      <div class="error">{{ errorMsg }}</div>
+    }
+
+    <div class="divider">
+      <span>or</span>
+    </div>
+
+    <button class="google-btn" (click)="loginWithGoogle()">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="20">
+      Login with Google
+    </button>
+
+  </div>
+</div>
