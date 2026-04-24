@@ -1,3 +1,7 @@
+[build]
+  command = "npm install --legacy-peer-deps && ng build --configuration production"
+  publish = "dist/ipanelklean-dashboard/browser"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
