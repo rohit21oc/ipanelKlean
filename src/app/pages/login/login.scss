@@ -1,148 +1,312 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap');
+
+/* =========================================
+   LOGIN PAGE — Charcoal & Teal Theme
+   Matches MIS Dashboard aesthetic
+========================================= */
+
 .login-container {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f0fdf4;
+  background: #141820;
+  font-family: 'Space Grotesk', sans-serif;
+  position: relative;
+  overflow: hidden;
+
+  /* Animated teal glow top-right */
+  &::before {
+    content: '';
+    position: absolute;
+    top: -160px; right: -160px;
+    width: 520px; height: 520px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(45,212,191,0.10) 0%, rgba(56,189,248,0.05) 40%, transparent 70%);
+    animation: glow-pulse 5s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  /* Subtle glow bottom-left */
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -120px; left: -120px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(45,212,191,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
 }
 
+/* Animated grid background */
+.login-container {
+  background-image:
+    linear-gradient(rgba(45,212,191,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(45,212,191,0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-color: #141820;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.04); }
+}
+
+/* =========================================
+   CARD
+========================================= */
 .login-card {
-  background: white;
-  padding: 40px;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.1);
-  text-align: center;
+  position: relative;
+  z-index: 1;
+  background: rgba(255,255,255,0.028);
+  border: 1px solid rgba(45,212,191,0.14);
+  border-radius: 24px;
+  padding: 44px 40px 36px;
   width: 380px;
+  text-align: center;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow:
+    0 0 0 1px rgba(45,212,191,0.06),
+    0 24px 48px rgba(0,0,0,0.35);
+  animation: card-in 0.5s cubic-bezier(0.22,1,0.36,1) both;
 }
 
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)   scale(1); }
+}
 
+/* Decorative top bar */
+.login-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%; transform: translateX(-50%);
+  width: 60px; height: 2px;
+  background: linear-gradient(90deg, transparent, #2dd4bf, transparent);
+  border-radius: 0 0 4px 4px;
+}
+
+/* =========================================
+   LOGO
+========================================= */
 .logo {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 24px;
+  gap: 10px;
+  margin-bottom: 28px;
 
   .login-logo {
-    height: 60px;
+    height: 64px;
     width: auto;
+    filter: drop-shadow(0 0 12px rgba(45,212,191,0.25));
   }
 
   p {
-    font-size: 14px;
-    color: #6b7280;
-    font-weight: 500;
+    font-size: 12px;
+    color: #2dd4bf;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin: 0;
   }
 }
+
+/* =========================================
+   TABS
+========================================= */
 .tabs {
   display: flex;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
   overflow: hidden;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  padding: 4px;
+  gap: 4px;
 }
 
 .tabs button {
   flex: 1;
-  padding: 10px;
+  padding: 9px;
   border: none;
-  background: white;
-  font-size: 14px;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 500;
   cursor: pointer;
-  color: #6b7280;
-  transition: all 0.2s;
+  color: rgba(226,232,240,0.45);
+  border-radius: 7px;
+  transition: all 0.22s ease;
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: 0.3px;
 }
 
 .tabs button.active {
-  background: #16a34a;
-  color: white;
-  font-weight: 600;
+  background: rgba(45,212,191,0.15);
+  color: #2dd4bf;
+  font-weight: 700;
+  border: 1px solid rgba(45,212,191,0.25);
 }
 
+/* =========================================
+   FORM INPUTS
+========================================= */
 .form {
   display: flex;
   flex-direction: column;
   gap: 12px;
   margin-bottom: 16px;
+  text-align: left;
 }
 
 .form input {
   padding: 12px 16px;
-  border: 1.5px solid #e5e7eb;
-  border-radius: 8px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 10px;
   font-size: 14px;
+  color: #e2e8f0;
   outline: none;
-  transition: border 0.2s;
+  font-family: 'Space Grotesk', sans-serif;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+
+  &::placeholder {
+    color: rgba(226,232,240,0.30);
+  }
+
+  &:focus {
+    border-color: rgba(45,212,191,0.45);
+    background: rgba(45,212,191,0.04);
+    box-shadow: 0 0 0 3px rgba(45,212,191,0.08);
+  }
 }
 
-.form input:focus {
-  border-color: #16a34a;
-}
-
+/* =========================================
+   SUBMIT BUTTON
+========================================= */
 .submit-btn {
-  padding: 12px;
-  background: #16a34a;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 600;
+  padding: 13px;
+  background: rgba(45,212,191,0.18);
+  color: #2dd4bf;
+  border: 1px solid rgba(45,212,191,0.35);
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
   cursor: pointer;
-  transition: background 0.2s;
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: 0.5px;
+  transition: all 0.22s ease;
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: rgba(45,212,191,0.08);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  &:hover:not(:disabled) {
+    background: rgba(45,212,191,0.26);
+    border-color: rgba(45,212,191,0.55);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(45,212,191,0.15);
+    &::after { opacity: 1; }
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    background: rgba(255,255,255,0.04);
+    color: rgba(226,232,240,0.25);
+    border-color: rgba(255,255,255,0.07);
+    cursor: not-allowed;
+  }
 }
 
-.submit-btn:hover {
-  background: #15803d;
-}
-
-.submit-btn:disabled {
-  background: #9ca3af;
-  cursor: not-allowed;
-}
-
+/* =========================================
+   ERROR MESSAGE
+========================================= */
 .error {
-  background: #fef2f2;
-  color: #dc2626;
-  padding: 10px;
+  background: rgba(248,113,113,0.10);
+  color: #fca5a5;
+  border: 1px solid rgba(248,113,113,0.20);
+  padding: 10px 14px;
   border-radius: 8px;
   font-size: 13px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+  text-align: left;
 }
 
+/* =========================================
+   DIVIDER
+========================================= */
 .divider {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin: 16px 0;
-  color: #9ca3af;
-  font-size: 13px;
+  margin: 18px 0;
+  color: rgba(226,232,240,0.22);
+  font-size: 12px;
+  letter-spacing: 0.5px;
+
+  &::before, &::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.07);
+  }
+
+  span {
+    text-transform: uppercase;
+  }
 }
 
-.divider::before,
-.divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: #e5e7eb;
-}
-
+/* =========================================
+   GOOGLE BUTTON
+========================================= */
 .google-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
   width: 100%;
   padding: 12px;
-  border: 2px solid #e5e7eb;
-  border-radius: 8px;
-  background: white;
-  font-size: 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 10px;
+  font-size: 13px;
   font-weight: 500;
+  color: rgba(226,232,240,0.70);
   cursor: pointer;
-  transition: all 0.2s;
+  font-family: 'Space Grotesk', sans-serif;
+  transition: all 0.22s ease;
+  box-sizing: border-box;
+
+  &:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(45,212,191,0.25);
+    color: #e2e8f0;
+    transform: translateY(-1px);
+  }
+
+  img {
+    filter: brightness(0.9);
+  }
 }
 
-.google-btn:hover {
-  border-color: #16a34a;
-  background: #f0fdf4;
+/* =========================================
+   RESPONSIVE
+========================================= */
+@media (max-width: 440px) {
+  .login-card {
+    width: calc(100vw - 32px);
+    padding: 36px 24px 28px;
+    border-radius: 18px;
+  }
 }
