@@ -37,7 +37,7 @@ export class Login {
     try {
       if (this.isSignup) {
         await createUserWithEmailAndPassword(this.auth, this.email, this.password);
-        this.errorMsg = 'Account created! Admin se modules assign karwao.';
+        this.errorMsg = 'Account created! Modules will be assign by Admin.';
         this.loading = false;
         return;
       }

@@ -26,6 +26,7 @@
       <button class="logout-btn" (click)="logout()">Logout</button>
     </div>
   </header>
+
   <div class="hero">
     <div class="hero-text">
       <h2>Waterless Solar<br/>Self-Cleaning System</h2>
@@ -38,54 +39,118 @@
       </div>
     </div>
   </div>
-@if (userRole === 'MD' || userRole === 'md') {
-  <div class="task-summaries-wrapper">
-    <div class="summary-panel">
-      <div class="panel-header" style="--hc: #60a5fa">CHECKLIST TASK SUMMARY</div>
-      <div class="panel-grid cols-2">
-        <div class="stat-box" style="--c:#4ade80">
-          <div class="stat-label">Today Completed</div>
-          <div class="stat-value">{{ checklistCompleted }}</div>
-        </div>
-        <div class="stat-box" style="--c:#f87171">
-          <div class="stat-label">Today Pending</div>
-          <div class="stat-value">{{ checklistPending }}</div>
-        </div>
-      </div>
-    </div>
 
-    <div class="summary-panel">
-      <div class="panel-header" style="--hc: #60a5fa">DELEGATION TASK SUMMARY</div>
-      <div class="panel-grid cols-3">
-        <div class="stat-box" style="--c:#60a5fa">
-          <div class="stat-label">Today Assigned</div>
-          <div class="stat-value">{{ delegationAssigned }}</div>
+  @if (userRole === 'MD' || userRole === 'md') {
+
+    <!-- ── FILTERS ROW ───────────────────────────────────────────── -->
+    <div class="filters-row">
+
+      <!-- Employee multi-select dropdown -->
+      <div class="filter-group">
+        <label class="filter-label">Employee</label>
+        <div class="dropdown-wrap" [class.open]="showEmpDropdown">
+          <button class="dropdown-trigger" (click)="toggleEmpDropdown()">
+            <span class="dropdown-value">{{ empDropdownLabel }}</span>
+            <span class="dropdown-arrow">{{ showEmpDropdown ? '▲' : '▼' }}</span>
+          </button>
+          @if (showEmpDropdown) {
+            <div class="dropdown-panel">
+              <div class="dropdown-actions">
+                <button class="dp-act-btn" (click)="selectAllEmployees()">Select All</button>
+                <button class="dp-act-btn" (click)="clearAllEmployees()">Clear</button>
+              </div>
+              <p style="color: yellow; padding: 10px;">Total Employees Found: {{ employees.length }}</p>
+              <div class="dropdown-list">
+                @for (emp of employees; track emp) {
+                  <label class="dropdown-item">
+                    <input type="checkbox"
+                           [checked]="isEmpSelected(emp)"
+                           (change)="toggleEmployee(emp)"/>
+                    <span class="dp-name">{{ emp }}</span>
+                  </label>
+                }
+              </div>
+            </div>
+          }
         </div>
-        <div class="stat-box" style="--c:#4ade80">
-          <div class="stat-label">Today Completed</div>
-          <div class="stat-value">{{ delegationCompleted }}</div>
+      </div>
+
+      <!-- Date From -->
+      <div class="filter-group">
+        <label class="filter-label">From</label>
+        <input class="date-input" type="date"
+               [(ngModel)]="dateFrom"
+               (change)="onDateChange()"/>
+      </div>
+
+      <!-- Date To -->
+      <div class="filter-group">
+        <label class="filter-label">To</label>
+        <input class="date-input" type="date"
+               [(ngModel)]="dateTo"
+               (change)="onDateChange()"/>
+      </div>
+
+      <!-- Loading / Error indicator -->
+      @if (isLoading) {
+        <div class="filter-status loading">⟳ Loading data...</div>
+      }
+      @if (loadError) {
+        <div class="filter-status error">⚠ Failed to load CSV
+          <button class="retry-btn" (click)="fetchCSV()">Retry</button>
         </div>
-        <div class="stat-box" style="--c:#a78bfa">
-          <div class="stat-label">Completion %</div>
-          <div class="stat-value">{{ delegationCompletionPct }}%</div>
+      }
+
+    </div>
+    <!-- ── END FILTERS ───────────────────────────────────────────── -->
+
+    <div class="task-summaries-wrapper">
+      <div class="summary-panel">
+        <div class="panel-header" style="--hc: #60a5fa">CHECKLIST TASK SUMMARY</div>
+        <div class="panel-grid cols-2">
+          <div class="stat-box" style="--c:#4ade80">
+            <div class="stat-label">Today Completed</div>
+            <div class="stat-value">{{ checklistCompleted }}</div>
+          </div>
+          <div class="stat-box" style="--c:#f87171">
+            <div class="stat-label">Today Pending</div>
+            <div class="stat-value">{{ checklistPending }}</div>
+          </div>
         </div>
-        <div class="stat-box" style="--c:#f59e0b">
-          <div class="stat-label">Total Pending</div>
-          <div class="stat-value">{{ delegationPending }}</div>
-        </div>
-        <div class="stat-box" style="--c:#f87171">
-          <div class="stat-label">Total Overdue</div>
-          <div class="stat-value">{{ delegationOverdue }}</div>
-        </div>
-        
-        <div class="stat-box custom-box" style="--c:#94a3b8">
-          <div class="stat-icon">✨</div>
-          <div class="stat-label">Custom Space</div>
+      </div>
+
+      <div class="summary-panel">
+        <div class="panel-header" style="--hc: #60a5fa">DELEGATION TASK SUMMARY</div>
+        <div class="panel-grid cols-3">
+          <div class="stat-box" style="--c:#60a5fa">
+            <div class="stat-label">Today Assigned</div>
+            <div class="stat-value">{{ delegationAssigned }}</div>
+          </div>
+          <div class="stat-box" style="--c:#4ade80">
+            <div class="stat-label">Today Completed</div>
+            <div class="stat-value">{{ delegationCompleted }}</div>
+          </div>
+          <div class="stat-box" style="--c:#a78bfa">
+            <div class="stat-label">Completion %</div>
+            <div class="stat-value">{{ delegationCompletionPct }}%</div>
+          </div>
+          <div class="stat-box" style="--c:#f59e0b">
+            <div class="stat-label">Total Pending</div>
+            <div class="stat-value">{{ delegationPending }}</div>
+          </div>
+          <div class="stat-box" style="--c:#f87171">
+            <div class="stat-label">Total Overdue</div>
+            <div class="stat-value">{{ delegationOverdue }}</div>
+          </div>
+          <div class="stat-box custom-box" style="--c:#94a3b8">
+            <div class="stat-icon">✨</div>
+            <div class="stat-label">Custom Space</div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-}
+  }
+
   @if (row1.length > 0) {
     <div class="section-head">
       <h3>Management Modules</h3>
